@@ -49,6 +49,37 @@ class MessageEnvelopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             message.validate()
 
+    def test_rejects_unknown_message_fields(self):
+        payload = message_to_dict(Message(
+            message_id="m", conversation_id="c", sender_id="u",
+            created_at=STAMP, kind="text", text="hello",
+        ))
+        payload["admin"] = True
+        with self.assertRaisesRegex(ValueError, "unknown message field"):
+            message_from_dict(payload)
+
+    def test_rejects_unknown_attachment_fields(self):
+        payload = message_to_dict(Message(
+            message_id="m", conversation_id="c", sender_id="u",
+            created_at=STAMP, kind="file",
+            attachment=Attachment("file.txt", "text/plain", 1),
+        ))
+        payload["attachment"]["local_path"] = "/etc/passwd"
+        with self.assertRaisesRegex(ValueError, "unknown attachment field"):
+            message_from_dict(payload)
+
+    def test_rejects_non_object_attachment(self):
+        payload = {
+            "message_id": "m", "conversation_id": "c", "sender_id": "u",
+            "created_at": STAMP, "kind": "file", "attachment": "file.txt",
+        }
+        with self.assertRaisesRegex(ValueError, "attachment must be an object"):
+            message_from_dict(payload)
+
+    def test_rejects_non_string_reaction(self):
+        with self.assertRaises(ValueError):
+            Reaction("m", "u", [], STAMP).validate()
+
     def test_reaction_values_are_limited(self):
         Reaction("m", "u", "thumbs_up", STAMP).validate()
         with self.assertRaises(ValueError):
