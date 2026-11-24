@@ -24,6 +24,10 @@ These are concept goals, not claims about implemented features.
 
 **Concept stage.** The repository currently contains the initial product description. No production app, backend, messaging protocol, or file-transfer service is claimed to exist.
 
+## Initial protocol prototype
+
+A transport-neutral JSON message-envelope prototype is available in the `talkietalkie/` Python package. It models text messages, file metadata, replies, grouping, and thumbs-up/thumbs-down reactions. It does not implement a network service, encryption, accounts, durable storage, or file transfer. See [Message Envelope Draft 0.1](PROTOCOL.md) and run `make test`.
+
 ## Product questions to resolve
 
 - Which platforms should be supported first?
