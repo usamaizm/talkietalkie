@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/usamaizm/talkietalkie/blob/main/schema/message-0.1.schema.json",
+  "title": "TalkieTalkie Message and Reaction Draft 0.1",
+  "oneOf": [
+    { "$ref": "#/$defs/message" },
+    { "$ref": "#/$defs/reaction" }
+  ],
+  "$defs": {
+    "attachment": {
+      "type": "object",
+      "required": ["name", "media_type", "size_bytes"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$" },
+        "media_type": { "type": "string", "minLength": 1 },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$" }
+      },
+      "additionalProperties": true
+    },
+    "message": {
+      "type": "object",
+      "required": ["version", "message_id", "conversation_id", "sender_id", "created_at", "kind"],
+      "properties": {
+        "version": { "const": "0.1" },
+        "message_id": { "type": "string", "minLength": 1 },
+        "conversation_id": { "type": "string", "minLength": 1 },
+        "sender_id": { "type": "string", "minLength": 1 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "kind": { "enum": ["text", "file"] },
+        "text": { "type": ["string", "null"], "minLength": 1 },
+        "attachment": { "oneOf": [{ "$ref": "#/$defs/attachment" }, { "type": "null" }] },
+        "reply_to": { "type": ["string", "null"], "minLength": 1 },
+        "group_id": { "type": ["string", "null"], "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "text" } }, "required": ["kind"] },
+          "then": {
+            "required": ["text"],
+            "properties": { "attachment": { "type": "null" } }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "file" } }, "required": ["kind"] },
+          "then": {
+            "required": ["attachment"],
+            "properties": { "text": { "type": "null" } }
+          }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "reaction": {
+      "type": "object",
+      "required": ["version", "message_id", "sender_id", "value", "created_at"],
+      "properties": {
+        "version": { "const": "0.1" },
+        "message_id": { "type": "string", "minLength": 1 },
+        "sender_id": { "type": "string", "minLength": 1 },
+        "value": { "enum": ["thumbs_up", "thumbs_down"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    }
+  }
+}
