@@ -44,3 +44,8 @@ Contributions should preserve the product's simplicity and document user-facing 
 ## License
 
 No license is asserted here until the repository's existing licensing decision is reviewed and documented.
+
+
+## Ecosystem integration
+
+This project is part of a set of independent, interoperable open projects. See the [ecosystem integration contract](https://github.com/usamaizm/AIDB/blob/main/docs/ECOSYSTEM_INTEGRATION.md) for its role, interoperability boundaries, and integration principles.
