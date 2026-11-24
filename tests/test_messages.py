@@ -49,6 +49,14 @@ class MessageEnvelopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             message.validate()
 
+    def test_rejects_non_string_message_keys(self):
+        payload = {
+            "message_id": "m", "conversation_id": "c", "sender_id": "u",
+            "created_at": STAMP, "kind": "text", "text": "hello", 1: "bad",
+        }
+        with self.assertRaisesRegex(ValueError, "keys must be strings"):
+            message_from_dict(payload)
+
     def test_rejects_unknown_message_fields(self):
         payload = message_to_dict(Message(
             message_id="m", conversation_id="c", sender_id="u",
