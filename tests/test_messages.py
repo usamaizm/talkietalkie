@@ -1,4 +1,6 @@
 import unittest
+import json
+from pathlib import Path
 
 from talkietalkie import Attachment, Message, Reaction, message_from_dict, message_to_dict
 
@@ -7,6 +9,15 @@ STAMP = "2026-11-24T12:00:00Z"
 
 
 class MessageEnvelopeTests(unittest.TestCase):
+    def test_published_examples(self):
+        examples = Path(__file__).resolve().parents[1] / "examples"
+        for name in ("text-message.json", "file-message.json"):
+            with self.subTest(example=name):
+                value = json.loads((examples / name).read_text(encoding="utf-8"))
+                self.assertEqual(message_from_dict(value), message_from_dict(message_to_dict(message_from_dict(value))))
+        reaction = json.loads((examples / "reaction.json").read_text(encoding="utf-8"))
+        Reaction(**reaction).validate()
+
     def test_text_message_round_trip(self):
         original = Message(
             message_id="m-1", conversation_id="c-1", sender_id="u-1",
