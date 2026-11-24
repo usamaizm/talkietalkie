@@ -111,6 +111,8 @@ def message_to_dict(message: Message) -> dict[str, Any]:
 def message_from_dict(value: dict[str, Any]) -> Message:
     if not isinstance(value, dict):
         raise ValueError("message must be an object")
+    if any(not isinstance(key, str) for key in value):
+        raise ValueError("message object keys must be strings")
     allowed = {
         "message_id", "conversation_id", "sender_id", "created_at",
         "kind", "text", "attachment", "reply_to", "group_id", "version",
@@ -123,6 +125,8 @@ def message_from_dict(value: dict[str, Any]) -> Message:
     if raw_attachment is None:
         attachment = None
     elif isinstance(raw_attachment, dict):
+        if any(not isinstance(key, str) for key in raw_attachment):
+            raise ValueError("attachment object keys must be strings")
         attachment_fields = {"name", "media_type", "size_bytes", "sha256"}
         unknown_attachment = set(raw_attachment) - attachment_fields
         if unknown_attachment:
