@@ -26,7 +26,7 @@ These are concept goals, not claims about implemented features.
 
 ## Initial protocol prototype
 
-A transport-neutral JSON message-envelope prototype is available in the `talkietalkie/` Python package. It models text messages, file metadata, replies, grouping, and thumbs-up/thumbs-down reactions. It does not implement a network service, encryption, accounts, durable storage, or file transfer. See [Message Envelope Draft 0.1](PROTOCOL.md) and run `make test`.
+A transport-neutral JSON message-envelope prototype is available in the `talkietalkie/` Python package. It models text messages, file metadata, replies, grouping, and thumbs-up/thumbs-down reactions. It does not implement a network service, encryption, accounts, durable storage, or file transfer. See [Message Envelope Draft 0.1](PROTOCOL.md), the [JSON Schema](schema/message-0.1.schema.json), and the [example messages](examples/); run `make test`.
 
 ## Product questions to resolve
 
