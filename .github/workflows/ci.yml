@@ -17,5 +17,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Validate JSON Schema and examples
+        run: |
+          python -m json.tool schema/message-0.1.schema.json > /dev/null
+          python -m json.tool examples/text-message.json > /dev/null
+          python -m json.tool examples/file-message.json > /dev/null
+          python -m json.tool examples/reaction.json > /dev/null
       - name: Run message-envelope tests
         run: make test
