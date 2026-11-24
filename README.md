@@ -1,3 +1,46 @@
-# talkietalkie
-just talk.
-Hi, I don't know how to code but I'm trying to make an app called talkie talkie. It lets you talk to people. Maybe even one day animals. I would like to be able to send someone a file in the quickest of the sense. I want to be able to say something to someone. I should be able to thumbs it up or down. We should be able to stack.
+# TalkieTalkie
+
+**Talk. Share. Respond.**
+
+TalkieTalkie is an early-stage communication-app concept centered on making it quick and easy to talk with people and share things with them.
+
+The original idea includes:
+- starting a conversation with minimal friction;
+- sending a file to someone as quickly as possible;
+- reacting to messages with a thumbs-up or thumbs-down;
+- stacking or grouping messages and shared items into a useful conversation flow.
+
+These are concept goals, not claims about implemented features.
+
+## Product principles
+
+1. **Fast communication:** make the common action—sending a message—quick and obvious.
+2. **Simple sharing:** reduce the steps needed to send a file or other item.
+3. **Lightweight feedback:** support clear positive and negative reactions.
+4. **Readable conversations:** explore message stacking and grouping without hiding context.
+5. **Privacy and user control:** make sharing destinations and visibility explicit.
+
+## Status
+
+**Concept stage.** The repository currently contains the initial product description. No production app, backend, messaging protocol, or file-transfer service is claimed to exist.
+
+## Product questions to resolve
+
+- Which platforms should be supported first?
+- Is the first release one-to-one messaging, group messaging, or both?
+- How should identity, contacts, and invitations work?
+- What file types and size limits should sharing support?
+- What does “stacking” mean in the interaction design?
+- What privacy, encryption, retention, and abuse-reporting requirements apply?
+
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md).
+
+## Contributing
+
+Contributions should preserve the product's simplicity and document user-facing behavior, privacy implications, and platform requirements.
+
+## License
+
+No license is asserted here until the repository's existing licensing decision is reviewed and documented.
