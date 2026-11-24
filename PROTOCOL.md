@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Define a small transport-neutral message envelope for the initial TalkieTalkie concepts: text messages, file-sharing metadata, replies/grouping, and thumbs-up/thumbs-down reactions. The envelope can be serialized as JSON by the reference Python package.
+Define a small transport-neutral message envelope for the initial TalkieTalkie concepts: text messages, file-sharing metadata, replies/grouping, and thumbs-up/thumbs-down reactions. The envelope can be serialized as JSON by the reference Python package. The provisional [JSON Schema](schema/message-0.1.schema.json) and [examples](examples/) define machine-readable draft fixtures.
 
 ## Message fields
 
