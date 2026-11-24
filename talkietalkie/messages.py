@@ -98,7 +98,7 @@ class Reaction:
             raise ValueError("unsupported reaction version")
         _required_text("message_id", self.message_id)
         _required_text("sender_id", self.sender_id)
-        if self.value not in {"thumbs_up", "thumbs_down"}:
+        if not isinstance(self.value, str) or self.value not in {"thumbs_up", "thumbs_down"}:
             raise ValueError("reaction value must be thumbs_up or thumbs_down")
         _timestamp(self.created_at)
 
@@ -111,8 +111,31 @@ def message_to_dict(message: Message) -> dict[str, Any]:
 def message_from_dict(value: dict[str, Any]) -> Message:
     if not isinstance(value, dict):
         raise ValueError("message must be an object")
+    allowed = {
+        "message_id", "conversation_id", "sender_id", "created_at",
+        "kind", "text", "attachment", "reply_to", "group_id", "version",
+    }
+    unknown = set(value) - allowed
+    if unknown:
+        raise ValueError(f"unknown message field(s): {', '.join(sorted(unknown))}")
+
     raw_attachment = value.get("attachment")
-    attachment = Attachment(**raw_attachment) if isinstance(raw_attachment, dict) else None
+    if raw_attachment is None:
+        attachment = None
+    elif isinstance(raw_attachment, dict):
+        attachment_fields = {"name", "media_type", "size_bytes", "sha256"}
+        unknown_attachment = set(raw_attachment) - attachment_fields
+        if unknown_attachment:
+            raise ValueError(
+                f"unknown attachment field(s): {', '.join(sorted(unknown_attachment))}"
+            )
+        try:
+            attachment = Attachment(**raw_attachment)
+        except TypeError as exc:
+            raise ValueError(f"invalid attachment object: {exc}") from exc
+    else:
+        raise ValueError("attachment must be an object or null")
+
     message = Message(
         message_id=value.get("message_id"),
         conversation_id=value.get("conversation_id"),
